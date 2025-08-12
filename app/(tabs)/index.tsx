@@ -46,14 +46,75 @@ export default function HomeScreen() {
   };
   const [warningMessage, setWarningMessage] = useState('');
 
+  const toggleTodo = (id: string) => {
+    setTodos(todos.map(todo => 
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    ));
+  };
+
+  const deleteTodo = (id: string) => {
+    setTodos(todos.filter(todo => todo.id !== id));
+  };
+
+  const getTopThreeTodos = () => {
+    // Filter out completed todos first
+    const incompleteTodos = todos.filter(todo => !todo.completed);
+    
+    // Sort by priority: high > medium > low
+    const priorityOrder = { 'high': 3, 'medium': 2, 'low': 1 };
+    const sortedTodos = incompleteTodos.sort((a, b) => 
+      priorityOrder[b.priority] - priorityOrder[a.priority]
+    );
+    
+    // Return only top 3
+    return sortedTodos.slice(0, 3);
+  };
+
+  const completedTodos = todos.filter(todo => todo.completed);
+
   return(
   <View style = {styles.container}>
-      <TouchableOpacity
-        style = {styles.floatingButton}
-        onPress = {() => setModalVisible(true)}
-      >
-        <Text style = {styles.floatingButtonText}>+</Text>
-      </TouchableOpacity>
+    <FlatList
+      data={getTopThreeTodos()}
+      renderItem={({ item }) => (
+        <TouchableOpacity 
+          style={[styles.todoItem, item.completed && styles.todoItemCompleted]}
+          onPress={() => toggleTodo(item.id)}
+        >
+          <View style={styles.todoContent}>
+            <View style={styles.todoHeader}>
+              <Text style={[styles.todoTitle, item.completed && styles.todoTitleCompleted]}>{item.text}</Text>
+              <View style={styles.todoActions}>
+                <View style={[styles.priorityDot, { 
+                  backgroundColor: item.priority === 'high' ? '#B85450' : 
+                                item.priority === 'medium' ? '#D4A574' : '#A8A8A8' 
+                }]} />
+                <TouchableOpacity 
+                  style={styles.deleteButton}
+                  onPress={() => deleteTodo(item.id)}
+                >
+                  <Text style={styles.deleteText}>✕</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            {item.description ? (
+              <Text style={[styles.todoDescription, item.completed && styles.todoDescriptionCompleted]}>{item.description}</Text>
+            ) : null}
+          </View>
+        </TouchableOpacity>
+      )}
+      keyExtractor={(item) => item.id}
+      style={styles.todoList}
+      showsVerticalScrollIndicator={false}
+    />
+
+    {/* Floating Button */}
+    <TouchableOpacity
+      style={styles.floatingButton}
+      onPress={() => setModalVisible(true)}
+    >
+      <Text style={styles.floatingButtonText}>+</Text>
+    </TouchableOpacity>
       <Modal
         visible = {modal_visible}
         animationType = "fade"
@@ -161,6 +222,12 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: 'bold',
     color: '#424242',
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  subheader: {
+    fontSize: 16,
+    color: '#A8A8A8',
     textAlign: 'center',
     marginBottom: 30,
   },
@@ -329,5 +396,65 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '500',
     textAlign: 'center',
+  },
+  todoList: {
+    flex: 1,
+    marginBottom: 100, // Space for floating button
+  },
+  todoItem: {
+    backgroundColor: '#FEFCFC',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 12,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+  },
+  todoContent: {
+    flex: 1,
+  },
+  todoHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  todoTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#424242',
+    flex: 1,
+  },
+  todoDescription: {
+    fontSize: 14,
+    color: '#A8A8A8',
+    lineHeight: 20,
+  },
+  todoItemCompleted: {
+    opacity: 0.6,
+    backgroundColor: '#F0F0F0',
+  },
+  todoTitleCompleted: {
+    textDecorationLine: 'line-through',
+    color: '#A8A8A8',
+  },
+  todoDescriptionCompleted: {
+    textDecorationLine: 'line-through',
+    color: '#C0C0C0',
+  },
+  todoActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  deleteButton: {
+    padding: 4,
+  },
+  deleteText: {
+    color: '#B85450',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
