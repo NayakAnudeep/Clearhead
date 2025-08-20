@@ -1,0 +1,41 @@
+{
+  "cli": {
+    "version": ">= 5.0.0"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "ios": {
+        "resourceClass": "m1-medium"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "ios": {
+        "resourceClass": "m1-medium"
+      }
+    },
+    "production": {
+      "ios": {
+        "resourceClass": "m1-medium"
+      },
+      "android": {
+        "resourceClass": "medium"
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "ios": {
+        "ascAppId": "replace-with-app-store-connect-app-id",
+        "appleId": "replace-with-your-apple-id@email.com",
+        "appleTeamId": "replace-with-your-team-id"
+      },
+      "android": {
+        "serviceAccountKeyPath": "./path/to/api-key.json",
+        "track": "production"
+      }
+    }
+  }
+}

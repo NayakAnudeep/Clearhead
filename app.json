@@ -1,20 +1,34 @@
 {
   "expo": {
     "name": "ClearHead",
-    "slug": "ClearHead",
+    "slug": "clearhead",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "clearhead",
-    "userInterfaceStyle": "automatic",
+    "userInterfaceStyle": "light",
     "newArchEnabled": true,
+    "description": "ADHD-friendly task manager with AI recommendations",
+    "keywords": ["ADHD", "productivity", "tasks", "focus", "organization", "AI"],
+    "primaryColor": "#424242",
+    "privacy": "public",
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anudeepnayak.clearhead",
+      "buildNumber": "1",
+      "requireFullScreen": false,
+      "infoPlist": {
+        "CFBundleDisplayName": "ClearHead",
+        "LSApplicationQueriesSchemes": ["https", "http"]
+      }
     },
     "android": {
+      "package": "com.anudeepnayak.clearhead",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#F8F8F8"
       },
       "edgeToEdgeEnabled": true
     },
@@ -31,12 +45,17 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#F8F8F8"
         }
       ]
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "replace-with-your-eas-project-id"
+      }
     }
   }
 }
