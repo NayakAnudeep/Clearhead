@@ -8,6 +8,8 @@ ClearHead is a thoughtfully designed todo application that addresses the unique 
 
 This app recognizes that traditional todo lists often don't work well for people with ADHD. ClearHead aims to solve common issues like task overwhelm, priority confusion, and lack of visual feedback by providing a clean, focused interface with smart task management features.
 
+
+![Screenshot of the application](assets/images/main.png)
 ## ✨ Features
 
 ### Current Features
